@@ -1,15 +1,17 @@
 import { createStackNavigator, createAppContainer } from "react-navigation";
 import HomeScreen from "./HomeScreen";
 import ChatScreen from "./ChatScreen";
+import LoginScreen from './LoginScreen';
 
 
 const Navigator = createStackNavigator(
     {
+        LoginScreen:LoginScreen,
         Home: HomeScreen,
         Details: ChatScreen
     },
     {
-        initialRouteName: "Home"
+        initialRouteName: "LoginScreen"
     }
 );
 export default AppContainer = createAppContainer(Navigator);

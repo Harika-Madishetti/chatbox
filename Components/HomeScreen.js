@@ -1,8 +1,6 @@
 import React from "react";
 import styles from "../Stylesheet/styleSheet";
-import {View,Text,FlatList,TouchableOpacity,StyleSheet,TextInput} from 'react-native';
-import Header from "./Header";
-
+import {View,Text,FlatList,TouchableOpacity,} from 'react-native';
 
 export default class HomeScreen extends React.Component {
     constructor(props) {
@@ -20,19 +18,23 @@ export default class HomeScreen extends React.Component {
     }
     renderName = ({item}) => {
         return(
-            <TouchableOpacity onPress={()=>this.props.navigation.navigate('Details')} style={styles.separator}>
+            <TouchableOpacity onPress={()=>this.props.navigation.navigate('Details',{"name":item.name})} style={styles.separator}>
                 <Text style={styles.item}> {item.name} </Text>
             </TouchableOpacity>
         );
     }
 
-    static navigationOptions = {
-      headerTitle: <Header/>
+    static navigationOptions = ({ navigation }) => {
+        return(
+            {
+                headerTitle: 'P2PApp',
+                headerBackTitle:"Back"
+            }
+        );
     };
     render() {
         return (
             <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                {/*<Text>Home Screen</Text>*/}
                 <FlatList
                     data={this.state.ChatListContacts}
                     renderItem={this.renderName}
