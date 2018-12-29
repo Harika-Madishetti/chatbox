@@ -28,14 +28,16 @@ export default class ChatScreen extends React.Component {
         );
     };
     sendMessage(){
+        if(this.state.typing === ''){
+            return;
+        }
         const messages=this.state.messages;
-        messages.push({"sender":"harika","message":this.state.typing});
+        messages.push({"sender":this.props.navigation.getParam("name"),"message":this.state.typing});
         this.setState({
             messages:messages,
             typing:""
         });
     }
-
     render() {
         const keyboardVerticalOffset = Platform.OS === 'ios' ? Header.HEIGHT + 20 : 0;
         const padding = Platform.OS === 'ios' ? "padding" : '';
@@ -50,12 +52,10 @@ export default class ChatScreen extends React.Component {
                     keyboardVerticalOffset = {keyboardVerticalOffset}
                     behavior= {padding}>
                 <SafeAreaView forceInset={{ bottom: 'never' }}>
-                <Text>Chat Screen</Text>
-
                 <View style={styles.footer}>
-
                     <TextInput placeholder="TEXT HERE"
                         value={this.state.typing}
+                               style={styles.input}
                         onChangeText={text => this.setState({typing: text})}>
                     </TextInput>
                     <TouchableOpacity onPress={this.sendMessage.bind(this)}>
@@ -70,7 +70,7 @@ export default class ChatScreen extends React.Component {
 }
 const styles= StyleSheet.create({
     container: {
-        flex:1,
+        flex: 1,
         backgroundColor: '#fff',
     },
     row: {
@@ -88,5 +88,27 @@ const styles= StyleSheet.create({
     footer: {
         flexDirection: 'row',
         backgroundColor: '#eee',
+    },
+    input: {
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        fontSize: 18,
+        flex: 1,
+    },
+    send: {
+        alignSelf: 'center',
+        color: 'lightseagreen',
+        fontSize: 16,
+        fontWeight: 'bold',
+        padding: 20,
+    },
+    avatar: {
+        borderRadius: 20,
+        width: 40,
+        height: 40,
+        marginRight: 10,
+    },
+    rowText: {
+        flex: 1,
     },
 })
