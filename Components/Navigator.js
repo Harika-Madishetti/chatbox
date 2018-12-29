@@ -3,7 +3,8 @@ import HomeScreen from "./HomeScreen";
 import ChatScreen from "./ChatScreen";
 import LoginScreen from './LoginScreen';
 
-
+const isRegistered = false;
+const initialScreen = isRegistered ? "Home" : "LoginScreen";
 const Navigator = createStackNavigator(
     {
         LoginScreen:LoginScreen,
@@ -11,7 +12,7 @@ const Navigator = createStackNavigator(
         Details: ChatScreen
     },
     {
-        initialRouteName: "LoginScreen"
+        initialRouteName: initialScreen
     }
 );
 export default AppContainer = createAppContainer(Navigator);

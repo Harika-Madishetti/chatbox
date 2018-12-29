@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import {Text,View,TextInput,Button} from 'react-native';
+import {View,TextInput,Button} from 'react-native';
 
 class LoginScreen extends React.Component{
 
@@ -20,7 +20,7 @@ class LoginScreen extends React.Component{
                       >
                 </TextInput>
                 <Button  title="Next"
-                         onPress={()=> this.props.navigation.navigate('Home')}
+                         onPress={()=> this.props.navigation.navigate('Home',)}
                             >
                 </Button>
             </View>
