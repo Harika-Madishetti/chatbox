@@ -86,6 +86,9 @@ export default class ChatScreen extends React.Component {
                     renderItem={this.renderItem}
                     extradata={this.state}
                     keyExtractor={(item, index) => index.toString()}
+                    ref={ref => this.flatList = ref}
+                    onContentSizeChange={() => this.flatList.scrollToEnd({animated: true})}
+                    onLayout={() => this.flatList.scrollToEnd({animated: true})}
                 />
                 <KeyboardAvoidingView
                     keyboardVerticalOffset = {keyboardVerticalOffset}

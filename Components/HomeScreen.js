@@ -42,9 +42,8 @@ export default class HomeScreen extends React.Component {
         })
     }
     renderName = ({item}) => {
-
         let info={
-            sender:'8919746244',
+            sender:'9949279032',
             receiver:item
         }
 
@@ -73,6 +72,9 @@ export default class HomeScreen extends React.Component {
                     data={this.state.contacts}
                     renderItem={this.renderName}
                     extradata={this.state.contacts}
+                    ref={ref => this.flatList = ref}
+                    onContentSizeChange={() => this.flatList.scrollToEnd({animated: true})}
+                    onLayout={() => this.flatList.scrollToEnd({animated: true})}
                 />
             </View>
         );
