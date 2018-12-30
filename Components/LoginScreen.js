@@ -7,7 +7,7 @@ class LoginScreen extends React.Component{
     static navigationOptions = ({ navigation }) => {
         return(
             {
-                headerTitle:'P2PAPP',
+                headerTitle:'Sollu',
                 headerBackTitle:"Back",
                 headerTintColor:'white',
                 headerStyle:{

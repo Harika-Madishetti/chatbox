@@ -9,7 +9,7 @@ const Navigator = createStackNavigator(
     {
         LoginScreen:LoginScreen,
         Home: HomeScreen,
-        Details: ChatScreen
+        ChatScreen: ChatScreen
     },
     {
         initialRouteName: initialScreen
