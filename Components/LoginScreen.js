@@ -1,14 +1,19 @@
 import React, {Component} from 'react';
 import {View,TextInput,Button} from 'react-native';
 import styles from "../Stylesheet/styleSheet";
-import Header from "./Header";
 
 class LoginScreen extends React.Component{
+
     static navigationOptions = ({ navigation }) => {
         return(
             {
-                headerTitle: 'P2PApp',
-                headerBackTitle:"Back"
+                headerTitle:'P2PAPP',
+                headerBackTitle:"Back",
+                headerTintColor:'white',
+                headerStyle:{
+                    backgroundColor: '#cc504d',
+                }
+
             }
         );
     };

@@ -1,5 +1,5 @@
 import React from "react";
-import {View,Text,FlatList,TouchableOpacity,StyleSheet} from 'react-native';
+import {View,Text,FlatList,TouchableOpacity} from 'react-native';
 import styles from "../Stylesheet/styleSheet";
 
 export default class HomeScreen extends React.Component {
@@ -26,8 +26,13 @@ export default class HomeScreen extends React.Component {
     static navigationOptions = ({ navigation }) => {
         return(
             {
-                headerTitle: 'P2PApp',
-                headerBackTitle:"Back"
+                headerTitle:'P2PAPP',
+                headerBackTitle:"Back",
+                headerTintColor:'white',
+                headerStyle:{
+                    backgroundColor: '#cc504d',
+                }
+
             }
         );
     };
