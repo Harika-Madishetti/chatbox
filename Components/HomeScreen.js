@@ -1,5 +1,6 @@
 import React from "react";
 import {View,Text,FlatList,TouchableOpacity,StyleSheet} from 'react-native';
+import styles from "../Stylesheet/styleSheet";
 
 export default class HomeScreen extends React.Component {
     constructor(props) {
@@ -41,23 +42,4 @@ export default class HomeScreen extends React.Component {
         );
     }
 }
-const styles =  StyleSheet.create({
-    mainContainer: {
-        flex: 1,
-        backgroundColor: '#F5FCFF',
-        height: 24,
-    },
-    item: {
-        padding: 10,
-        fontSize: 18,
-        height: 50,
-        flexDirection: "row",
-    },
-    separator: {
-        justifyContent: "center",
-        padding: 10,
-        height: 50,
-        borderBottomColor: "rgba(92,94,94,0.5)",
-        borderBottomWidth: 0.25
-    },
-});
+

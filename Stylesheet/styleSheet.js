@@ -1,6 +1,48 @@
 import { StyleSheet } from 'react-native';
 
 export default StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+    row: {
+        padding: 20,
+        borderBottomWidth: 1,
+        borderBottomColor: '#eee',
+    },
+    message: {
+        fontSize: 18,
+    },
+    sender: {
+        fontWeight: 'bold',
+        paddingRight: 10,
+    },
+    footer: {
+        flexDirection: 'row',
+        backgroundColor: '#eee',
+    },
+    input: {
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        fontSize: 18,
+        flex: 1,
+    },
+    send: {
+        alignSelf: 'center',
+        color: 'lightseagreen',
+        fontSize: 16,
+        fontWeight: 'bold',
+        padding: 20,
+    },
+    avatar: {
+        borderRadius: 20,
+        width: 40,
+        height: 40,
+        marginRight: 10,
+    },
+    rowText: {
+        flex: 1,
+    },
     mainContainer: {
         flex: 1,
         backgroundColor: '#F5FCFF',
@@ -19,27 +61,19 @@ export default StyleSheet.create({
         borderBottomColor: "rgba(92,94,94,0.5)",
         borderBottomWidth: 0.25
     },
-    headerContainer: {
-        flex: 1,
-        flexDirection: "row",
-        justifyContent: "space-between",
-        backgroundColor: "#075e54",
-        alignItems:"center",
-        paddingRight: 5
+    Box:{
+        flex:1,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
-    leftHeaderContainer: {
-        alignItems: "flex-start",
-        flexDirection: "row"
+    inputBox: {
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        fontSize: 18,
+
     },
-    contentContainer: {
-        flex: 6,
-        flexDirection: "row",
-    },
-    logoText: {
-        color: "white",
-        fontWeight: "bold",
-        fontSize: 16,
-        alignItems: "flex-start",
-        marginLeft: 10
-    },
+    button:{
+        backgroundColor:"red"
+    }
+
 });

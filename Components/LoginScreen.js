@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 import {View,TextInput,Button} from 'react-native';
+import styles from "../Stylesheet/styleSheet";
+import Header from "./Header";
 
 class LoginScreen extends React.Component{
-
     static navigationOptions = ({ navigation }) => {
         return(
             {
@@ -13,16 +14,22 @@ class LoginScreen extends React.Component{
     };
     render(){
         return(
-            <View>
-                <TextInput placeholder="Enter your number"
-                           keyboardType='numeric'
-                           maxLength={10}
+            <View style={styles.Box}>
+                <View>
+                <TextInput
+                    style={styles.inputBox}
+                    placeholder="Enter your number"
+                    keyboardType='numeric'
+                    maxLength={10}
                       >
                 </TextInput>
-                <Button  title="Next"
-                         onPress={()=> this.props.navigation.navigate('Home',)}
-                            >
+                </View>
+                <View>
+                <Button  style={styles.button}
+                         title="Next"
+                         onPress={()=> this.props.navigation.navigate('Home')}>
                 </Button>
+                </View>
             </View>
         );
     }
