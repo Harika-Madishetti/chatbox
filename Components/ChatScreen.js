@@ -14,9 +14,9 @@ export default class ChatScreen extends React.Component {
         }
     }
     componentDidMount(){
+        const db = firebase.database();
         let {navigation} = this.props;
         const info = navigation.getParam('info');
-        const db = firebase.database();
         const taskRef = db.ref('registeredUsers').child(info.sender).child("chat").child(info.receiver.key);
         taskRef.on('value', (data) => {
             let chatData = data.val();
@@ -68,9 +68,11 @@ export default class ChatScreen extends React.Component {
     render() {
         const keyboardVerticalOffset = Platform.OS === 'ios' ? Header.HEIGHT + 20 : 0;
         const padding = Platform.OS === 'ios' ? "padding" : '';
+        let {navigation} = this.props;
+        const title=navigation.getParam('title')
         return (
             <View style={styles.mainContainer}>
-            <Header/>
+            <Header title={title}/>
             <View style={styles.container}>
                 <FlatList
                     data={this.state.messages}

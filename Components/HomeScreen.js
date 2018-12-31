@@ -51,7 +51,7 @@ export default class HomeScreen extends React.Component {
         }
         console.log("contactname : " +item.name);
         return(
-            <TouchableOpacity onPress={()=>this.props.navigation.navigate('ChatScreen',{info:info})} style={styles.separator}>
+            <TouchableOpacity onPress={()=>this.props.navigation.navigate('ChatScreen',{info:info, title:item.name})} style={styles.separator}>
                 <Text style={styles.item}> {item.name} </Text>
             </TouchableOpacity>
         );
@@ -59,7 +59,7 @@ export default class HomeScreen extends React.Component {
     render() {
         return (
             <View style={styles.mainContainer}>
-                <Header/>
+                <Header title={'Sollu'}/>
             <View>
                 <FlatList
                     data={this.state.contacts}

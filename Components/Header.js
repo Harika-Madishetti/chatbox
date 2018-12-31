@@ -7,7 +7,7 @@ export default class Header extends Component{
         return(
             <View style={styles.headerContainer}>
                 <View style={styles.leftHeaderContainer}>
-                    <Text style={styles.logoText}>Sollu</Text>
+                    <Text style={styles.logoText}>{this.props.title}</Text>
                 </View>
             </View>
         );

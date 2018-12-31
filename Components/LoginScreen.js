@@ -7,7 +7,7 @@ class LoginScreen extends React.Component{
     render(){
         return(
             <View style={styles.mainContainer}>
-                <Header/>
+                <Header title={'Sollu'}/>
             <View style={styles.Box}>
                 <TextInput
                     style={styles.inputBox}
