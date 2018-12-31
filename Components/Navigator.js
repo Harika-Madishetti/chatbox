@@ -12,7 +12,8 @@ const Navigator = createStackNavigator(
         ChatScreen: ChatScreen
     },
     {
-        initialRouteName: initialScreen
+        initialRouteName: initialScreen,
+        headerMode: 'none'
     }
 );
 export default AppContainer = createAppContainer(Navigator);

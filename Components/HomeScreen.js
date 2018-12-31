@@ -3,6 +3,7 @@ import {View,Text,FlatList,TouchableOpacity} from 'react-native';
 import styles from "../Stylesheet/styleSheet";
 import Contacts from 'react-native-contacts';
 import firebase from '../firebase/firebase';
+import Header from "./Header";
 
 
 export default class HomeScreen extends React.Component {
@@ -18,11 +19,12 @@ export default class HomeScreen extends React.Component {
         Contacts.getAll((err, contacts) => {
             if (err) throw err;
             else {
+                console.log(contacts);
                 db.ref("registeredUsers").once('value', (registeredUsers) =>  {
-
                     for(let i=0;i<contacts.length;i++) {
                         if(contacts[i].phoneNumbers.length!==0) {
                             let number = contacts[i].phoneNumbers[0].number.replace(/\D/g,'');
+                            console.log(number);
                             if (number) {
                                 if (!(number.includes("*")) && registeredUsers.hasChild(number)) {
                                     temContacts.push({
@@ -33,6 +35,7 @@ export default class HomeScreen extends React.Component {
                             }
                         }
                     }
+
                     this.setState({
                         contacts:temContacts
                     })
@@ -43,30 +46,20 @@ export default class HomeScreen extends React.Component {
     }
     renderName = ({item}) => {
         let info={
-            sender:'9949279032',
+            sender:this.props.navigation.getParam("sender"),
             receiver:item
         }
-
+        console.log("contactname : " +item.name);
         return(
             <TouchableOpacity onPress={()=>this.props.navigation.navigate('ChatScreen',{info:info})} style={styles.separator}>
                 <Text style={styles.item}> {item.name} </Text>
             </TouchableOpacity>
         );
     }
-    static navigationOptions = ({ navigation }) => {
-        return(
-            {
-                headerTitle:'Sollu',
-                headerBackTitle:"Back",
-                headerTintColor:'white',
-                headerStyle:{
-                    backgroundColor: '#cc504d',
-                }
-            }
-        );
-    };
     render() {
         return (
+            <View style={styles.mainContainer}>
+                <Header/>
             <View>
                 <FlatList
                     data={this.state.contacts}
@@ -76,6 +69,7 @@ export default class HomeScreen extends React.Component {
                     onContentSizeChange={() => this.flatList.scrollToEnd({animated: true})}
                     onLayout={() => this.flatList.scrollToEnd({animated: true})}
                 />
+            </View>
             </View>
         );
     }

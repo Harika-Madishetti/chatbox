@@ -1,26 +1,14 @@
 import React, {Component} from 'react';
 import {View,TextInput,Button} from 'react-native';
 import styles from "../Stylesheet/styleSheet";
+import Header from "./Header";
 
 class LoginScreen extends React.Component{
-
-    static navigationOptions = ({ navigation }) => {
-        return(
-            {
-                headerTitle:'Sollu',
-                headerBackTitle:"Back",
-                headerTintColor:'white',
-                headerStyle:{
-                    backgroundColor: '#cc504d',
-                }
-
-            }
-        );
-    };
     render(){
         return(
+            <View style={styles.mainContainer}>
+                <Header/>
             <View style={styles.Box}>
-                <View>
                 <TextInput
                     style={styles.inputBox}
                     placeholder="Enter your number"
@@ -28,14 +16,15 @@ class LoginScreen extends React.Component{
                     maxLength={10}
                       >
                 </TextInput>
-                </View>
                 <View>
                 <Button  style={styles.button}
                          title="Next"
-                         onPress={()=> this.props.navigation.navigate('Home')}>
+                         onPress={()=> this.props.navigation.navigate('Home',{sender:'9940279032'})}>
                 </Button>
                 </View>
             </View>
+            </View>
+
         );
     }
 }

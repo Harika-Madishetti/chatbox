@@ -1,8 +1,9 @@
 import React from "react";
 import {Platform,View,Text,TextInput,KeyboardAvoidingView,FlatList,TouchableOpacity} from 'react-native';
-import {Header,SafeAreaView} from 'react-navigation';
+import {SafeAreaView} from 'react-navigation';
 import styles from "../Stylesheet/styleSheet";
-import firebase from "../firebase/firebase"
+import firebase from "../firebase/firebase";
+import Header from "./Header";
 
 export default class ChatScreen extends React.Component {
     constructor(props){
@@ -45,18 +46,6 @@ export default class ChatScreen extends React.Component {
             </View>
         );
     };
-    static navigationOptions = ({ navigation }) => {
-        return(
-            {
-                headerTitle: navigation.getParam("name"),
-                headerTintColor:'white',
-                headerStyle:{
-                    backgroundColor: '#cc504d',
-                    fontFamily:'sans-serif-light',
-                }
-            }
-        );
-    };
     sendMessage(){
         if (this.state.typing.trim()===''){
             return;
@@ -80,6 +69,8 @@ export default class ChatScreen extends React.Component {
         const keyboardVerticalOffset = Platform.OS === 'ios' ? Header.HEIGHT + 20 : 0;
         const padding = Platform.OS === 'ios' ? "padding" : '';
         return (
+            <View style={styles.mainContainer}>
+            <Header/>
             <View style={styles.container}>
                 <FlatList
                     data={this.state.messages}
@@ -107,6 +98,7 @@ export default class ChatScreen extends React.Component {
                 </View>
                 </SafeAreaView>
                 </KeyboardAvoidingView>
+            </View>
             </View>
         );
     }
