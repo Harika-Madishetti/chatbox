@@ -21,9 +21,10 @@ DerivedData
 *.ipa
 *.xcuserstate
 .babelrc
-.bulkconfig
+.buckconfig
 .gitattributes
 .watchmanconfig
+.flowconfig
 
 project.xcworkspace
 
