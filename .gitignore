@@ -20,6 +20,9 @@ DerivedData
 *.hmap
 *.ipa
 *.xcuserstate
+.babelrc
+.bulkconfig
+
 project.xcworkspace
 
 # Android/IntelliJ

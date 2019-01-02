@@ -1,5 +1,5 @@
 import React from "react";
-import {Platform,View,Text,TextInput,KeyboardAvoidingView,FlatList,TouchableOpacity} from 'react-native';
+import {Platform,View,Text,TextInput,KeyboardAvoidingView,FlatList,TouchableOpacity,Image} from 'react-native';
 import {SafeAreaView} from 'react-navigation';
 import styles from "../Stylesheet/styleSheet";
 import firebase from "../firebase/firebase";
@@ -58,7 +58,8 @@ export default class ChatScreen extends React.Component {
         }
         return (
                 <View style={[msgstyle,styles.row]}>
-                    <Text style={[msgtextstyle,styles.contactSeparator]}>{item.text}</Text>
+                    <Image style={styles.iconContainer} source={require('../Icon/userIcon.png')} />
+                    <Text style={[msgtextstyle,styles.contactContainer]}>{item.text}</Text>
                     </View>
         );
     };

@@ -29,7 +29,6 @@ export default StyleSheet.create({
         alignItems: "flex-start",
         marginLeft: 20,
         marginTop:30
-            // fontFamily:'Roboto'
     },
 
     container: {
@@ -38,13 +37,11 @@ export default StyleSheet.create({
     },
     row: {
         padding: 20,
-        // borderBottomWidth: 1,
-        // borderBottomColor: '#eee',
-        alignItems: "flex-start",
-        flex: 1,
-        borderBottomColor: "rgba(92,94,94,0.5)",
-        borderBottomWidth: 0.25,
-        marginRight: 60
+        // alignItems: "flex-start",
+        // borderBottomColor: "rgba(92,94,94,0.5)",
+        // borderBottomWidth: 0.25,
+        marginRight: 60,
+        justifyContent:'space-between'
     },
     message: {
         fontSize: 18,
@@ -92,7 +89,7 @@ export default StyleSheet.create({
         flexDirection: "row",
     },
     separator: {
-        justifyContent: "center",
+        justifyContent:'space-between',
         padding: 10,
         height: 50,
         borderBottomColor: "rgba(92,94,94,0.5)",
@@ -116,24 +113,34 @@ export default StyleSheet.create({
 
     senderCallerDetailsContainerWrap: {
         flex: 1,
-        alignItems: "center",
+        // alignItems: "center",
         flexDirection: "row-reverse",
+        // justifyContent : "space-between"
     },
     senderTextStyle:{
-        marginLeft: 60
+        marginLeft: 60,
+        justifyContent : "space-between"
+
     },
     receiverCallerDetailsContainerWrap: {
         flex: 1,
-        alignItems: "center",
+        // alignItems: "center",
         flexDirection: "row",
     },
+    iconContainer : {
+        borderRadius: 30,
+        width: 40,
+        height: 40
+    },
+
     receiverTextStyle:{
+        marginRight: 100
+    },
+    contactSeparator: {
+        flex: 1,
+        alignItems: "flex-start",
+        borderBottomColor: "rgba(92,94,94,0.5)",
+        borderBottomWidth: 0.5,
         marginRight: 60
     },
-    // contactSeparator: {
-    //     flex: 1,
-    //     borderBottomColor: "rgba(92,94,94,0.5)",
-    //     borderBottomWidth: 0.5,
-    //     marginRight: 60
-    // },
 });
