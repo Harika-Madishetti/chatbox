@@ -44,15 +44,16 @@ export default class HomeScreen extends React.Component {
             }
         })
     }
-    renderName = ({item}) => {
+    renderName(temp) {
+        console.log("inside render");
         let info={
             sender:this.props.navigation.getParam("sender"),
-            receiver:item
+            receiver:temp
         }
-        console.log("contactname : " +item.name);
+            // console.log("contactname : " +item.name);
         return(
-            <TouchableOpacity onPress={()=>this.props.navigation.navigate('ChatScreen',{info:info, title:item.name})} style={styles.separator}>
-                <Text style={styles.item}> {item.name} </Text>
+            <TouchableOpacity onPress={()=>this.props.navigation.navigate('ChatScreen',{info:info, })} style={styles.separator}>
+                <Text style={styles.item}> {temp.item.name} </Text>
             </TouchableOpacity>
         );
     }
@@ -63,7 +64,7 @@ export default class HomeScreen extends React.Component {
             <View>
                 <FlatList
                     data={this.state.contacts}
-                    renderItem={this.renderName}
+                    renderItem={this.renderName.bind(this)}
                     extradata={this.state.contacts}
                     ref={ref => this.flatList = ref}
                     onContentSizeChange={() => this.flatList.scrollToEnd({animated: true})}

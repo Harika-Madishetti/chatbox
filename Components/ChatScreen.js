@@ -17,7 +17,7 @@ export default class ChatScreen extends React.Component {
         const db = firebase.database();
         let {navigation} = this.props;
         const info = navigation.getParam('info');
-        const taskRef = db.ref('registeredUsers').child(info.sender).child("chat").child(info.receiver.key);
+        const taskRef = db.ref('registeredUsers').child(info.sender).child("chat").child(info.receiver.item.key);
         taskRef.on('value', (data) => {
             let chatData = data.val();
             console.log(chatData);
@@ -27,7 +27,6 @@ export default class ChatScreen extends React.Component {
                     _id: chatData[chatID]._id,
                     text: chatData[chatID].text,
                     createdAt: new Date(chatData[chatID].createdAt),
-                    user: chatData[chatID].user
                 };
                 tempChat.push(message);
             }
@@ -35,15 +34,32 @@ export default class ChatScreen extends React.Component {
             this.setState({ messages: tempChat});
         });
     }
+    static navigationOptions = ({ navigation }) => {
+        return(
+            {
+                headerTitle: navigation.getParam("name"),
+                headerBackTitle: "Back",
+                headerTintColor: "white",
+                headerStyle: {
+                    backgroundColor: '#cc504e'
+                },
+            }
+        );
+    };
     renderItem({item}){
-        console.log(item);
+        let msgstyle;
+        let msgtextstyle;
+        if(item._id === 1) {
+            msgstyle = styles.senderCallerDetailsContainerWrap;
+            msgtextstyle = styles.senderTextStyle;
+        }else {
+            msgstyle =styles.receiverCallerDetailsContainerWrap;
+            msgtextstyle = styles.receiverTextStyle;
+        }
         return (
-            <View style={styles.row}>
-                <View style={styles.rowText}>
-                    <Text style={styles.sender}>{item.sender}</Text>
-                    <Text style={styles.message}>{item.text}</Text>
-                </View>
-            </View>
+                <View style={[msgstyle,styles.row]}>
+                    <Text style={[msgtextstyle,styles.contactSeparator]}>{item.text}</Text>
+                    </View>
         );
     };
     sendMessage(){
@@ -57,22 +73,21 @@ export default class ChatScreen extends React.Component {
             _id:2,
             text:this.state.typing.trim(),
             createdAt:new Date().getTime(),
-            user: {_id:1}
         };
-        db.ref('registeredUsers').child(info.sender).child("chat").child(info.receiver.key).push(msg);
+        db.ref('registeredUsers').child(info.sender).child("chat").child(info.receiver.item.key).push(msg);
         msg._id=1;
-        msg.user._id=2;
-        db.ref('registeredUsers').child(info.receiver.key).child("chat").child(info.sender).push(msg);
+        db.ref('registeredUsers').child(info.receiver.item.key).child("chat").child(info.sender).push(msg);
         this.setState({typing:''});
     }
     render() {
         const keyboardVerticalOffset = Platform.OS === 'ios' ? Header.HEIGHT + 20 : 0;
         const padding = Platform.OS === 'ios' ? "padding" : '';
         let {navigation} = this.props;
-        const title=navigation.getParam('title')
+        const info=navigation.getParam("info");
+        const title=info.receiver.item.name
         return (
             <View style={styles.mainContainer}>
-            <Header title={title}/>
+                  <Header title={title}/>
             <View style={styles.container}>
                 <FlatList
                     data={this.state.messages}
@@ -85,7 +100,8 @@ export default class ChatScreen extends React.Component {
                 />
                 <KeyboardAvoidingView
                     keyboardVerticalOffset = {keyboardVerticalOffset}
-                    behavior= {padding}>
+                    behavior= {padding}
+                >
                 <SafeAreaView forceInset={{ bottom: 'never' }}>
                 <View style={styles.footer}>
                     <TextInput
@@ -100,7 +116,7 @@ export default class ChatScreen extends React.Component {
                 </View>
                 </SafeAreaView>
                 </KeyboardAvoidingView>
-            </View>
+               </View>
             </View>
         );
     }

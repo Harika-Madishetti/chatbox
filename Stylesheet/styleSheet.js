@@ -38,8 +38,13 @@ export default StyleSheet.create({
     },
     row: {
         padding: 20,
-        borderBottomWidth: 1,
-        borderBottomColor: '#eee',
+        // borderBottomWidth: 1,
+        // borderBottomColor: '#eee',
+        alignItems: "flex-start",
+        flex: 1,
+        borderBottomColor: "rgba(92,94,94,0.5)",
+        borderBottomWidth: 0.25,
+        marginRight: 60
     },
     message: {
         fontSize: 18,
@@ -73,6 +78,7 @@ export default StyleSheet.create({
     },
     rowText: {
         flex: 1,
+        alignItems: "flex-end",
     },
     mainContainer: {
         flex: 1,
@@ -105,5 +111,29 @@ export default StyleSheet.create({
     },
     button:{
         backgroundColor:"red"
-    }
+    },
+
+
+    senderCallerDetailsContainerWrap: {
+        flex: 1,
+        alignItems: "center",
+        flexDirection: "row-reverse",
+    },
+    senderTextStyle:{
+        marginLeft: 60
+    },
+    receiverCallerDetailsContainerWrap: {
+        flex: 1,
+        alignItems: "center",
+        flexDirection: "row",
+    },
+    receiverTextStyle:{
+        marginRight: 60
+    },
+    // contactSeparator: {
+    //     flex: 1,
+    //     borderBottomColor: "rgba(92,94,94,0.5)",
+    //     borderBottomWidth: 0.5,
+    //     marginRight: 60
+    // },
 });
