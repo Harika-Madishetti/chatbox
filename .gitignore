@@ -22,6 +22,8 @@ DerivedData
 *.xcuserstate
 .babelrc
 .bulkconfig
+.gitattributes
+.watchmanconfig
 
 project.xcworkspace
 
