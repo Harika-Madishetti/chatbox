@@ -1,9 +1,9 @@
 import React from "react";
 import {Platform,View,Text,TextInput,KeyboardAvoidingView,FlatList,TouchableOpacity,Image} from 'react-native';
-import {SafeAreaView} from 'react-navigation';
+import {SafeAreaView,Header} from 'react-navigation';
 import styles from "../Stylesheet/styleSheet";
 import firebase from "../firebase/firebase";
-import Header from "./Header";
+
 
 export default class ChatScreen extends React.Component {
     constructor(props){
@@ -11,7 +11,8 @@ export default class ChatScreen extends React.Component {
         this.state={
             typing : "",
             messages: []
-        }
+        };
+        this.sendMessage = this.sendMessage.bind(this);
     }
     componentDidMount(){
         const db = firebase.database();
@@ -20,25 +21,25 @@ export default class ChatScreen extends React.Component {
         const taskRef = db.ref('registeredUsers').child(info.sender).child("chat").child(info.receiver.item.key);
         taskRef.on('value', (data) => {
             let chatData = data.val();
-            console.log(chatData);
-            let tempChat = []
+            let Chat = []
             for (let chatID in chatData) {
                 const message = {
                     _id: chatData[chatID]._id,
                     text: chatData[chatID].text,
                     createdAt: new Date(chatData[chatID].createdAt),
                 };
-                tempChat.push(message);
+                Chat.push(message);
             }
-            console.log(tempChat);
-            this.setState({ messages: tempChat});
+            this.setState({
+                messages: Chat
+            });
         });
     }
     static navigationOptions = ({ navigation }) => {
         return(
             {
-                headerTitle: navigation.getParam("name"),
-                headerBackTitle: "Back",
+                headerTitle: navigation.getParam("contactName"),
+                // headerBackTitle: "Back",
                 headerTintColor: "white",
                 headerStyle: {
                     backgroundColor: '#cc504e'
@@ -81,43 +82,38 @@ export default class ChatScreen extends React.Component {
         this.setState({typing:''});
     }
     render() {
-        const keyboardVerticalOffset = Platform.OS === 'ios' ? Header.HEIGHT + 20 : 0;
-        const padding = Platform.OS === 'ios' ? "padding" : '';
-        let {navigation} = this.props;
-        const info=navigation.getParam("info");
-        const title=info.receiver.item.name
-        return (
-            <View style={styles.mainContainer}>
-                  <Header title={title}/>
+        // const keyboardVerticalOffset = Platform.OS === 'ios' ? Header.HEIGHT + 20 : 0;
+        // const padding = Platform.OS === 'ios' ? "padding" : '';
+        return(
             <View style={styles.container}>
                 <FlatList
                     data={this.state.messages}
-                    renderItem={this.renderItem}
-                    extradata={this.state}
+                    renderItem={this.renderItem.bind(this)}
+                    extraData={this.state}
                     keyExtractor={(item, index) => index.toString()}
                     ref={ref => this.flatList = ref}
-                    onContentSizeChange={() => this.flatList.scrollToEnd({animated: true})}
+                    onContentSizeChange={() =>  this.flatList.scrollToEnd({animated: false})}
                     onLayout={() => this.flatList.scrollToEnd({animated: true})}
                 />
-                <KeyboardAvoidingView
-                    keyboardVerticalOffset = {keyboardVerticalOffset}
-                    behavior= {padding}
-                >
-                <SafeAreaView forceInset={{ bottom: 'never' }}>
-                <View style={styles.footer}>
-                    <TextInput
-                        placeholder="TEXT HERE"
-                        value={this.state.typing}
-                        style={styles.input}
-                        onChangeText={text => this.setState({typing: text})}>
-                    </TextInput>
-                    <TouchableOpacity onPress={this.sendMessage.bind(this)}>
-                        <Text style={styles.send}>Send</Text>
-                    </TouchableOpacity>
-                </View>
-                </SafeAreaView>
-                </KeyboardAvoidingView>
-               </View>
+                {/*<KeyboardAvoidingView*/}
+                    {/*keyboardVerticalOffset = {keyboardVerticalOffset}*/}
+                    {/*behavior= {padding}*/}
+                {/*>*/}
+                    {/*<SafeAreaView forceInset={{ bottom: 'never' }}>*/}
+                        <View style={styles.footer}>
+                            <TextInput
+                                value={this.state.typing}
+                                onChangeText={text => this.setState({typing: text})}
+                                style={styles.input}
+                                underlineColorAndroid="transparent"
+                                placeholder="Type something nice"
+                            />
+                            <TouchableOpacity onPress={this.sendMessage}>
+                                <Text style={styles.send}>Send</Text>
+                            </TouchableOpacity>
+                        </View>
+                    {/*</SafeAreaView>*/}
+                {/*</KeyboardAvoidingView>*/}
             </View>
         );
     }

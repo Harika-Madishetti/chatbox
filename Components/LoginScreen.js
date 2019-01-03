@@ -1,24 +1,23 @@
 import React, {Component} from 'react';
 import {View,TextInput,Button} from 'react-native';
 import styles from "../Stylesheet/styleSheet";
-import Header from "./Header";
 import firebase from '../firebase/firebase';
 
 class LoginScreen extends React.Component{
-   state = { number : '',}
+   state = { phoneNumber : '',}
 
-    validNumber = (text) => {
+    validNumber = (number) => {
        this.setState({
-           number:text
+           phoneNumber:number
        })
     }
     handlePress = () => {
       let db = firebase.database();
       let taskRef = db.ref('registeredUsers');
-      this.props.navigation.navigate("HomeScreen",{sender:this.state.number});
+      this.props.navigation.navigate("HomeScreen",{sender:this.state.phoneNumber});
       taskRef.once('value',(registeredUsers) => {
-          if(!registeredUsers.hasChild(this.state.number)){
-              taskRef.child(this.state.number).set('done');
+          if(!registeredUsers.hasChild(this.state.phoneNumber)){
+              taskRef.child(this.state.phoneNumber).set('done');
           }
       })
     }
@@ -26,7 +25,7 @@ class LoginScreen extends React.Component{
         return(
             {
                 headerTitle: "SolluApp",
-                headerBackTitle: "Back",
+                // headerBackTitle: "Back",
                 headerTintColor: "white",
                 headerStyle: {
                     backgroundColor: '#cc504e',
@@ -40,8 +39,6 @@ class LoginScreen extends React.Component{
     };
     render(){
         return(
-            <View style={styles.mainContainer}>
-                <Header title={'Sollu'}/>
             <View style={styles.Box}>
                 <TextInput
                     style={styles.inputBox}
@@ -57,8 +54,6 @@ class LoginScreen extends React.Component{
                 </Button>
                 </View>
             </View>
-            </View>
-
         );
     }
 }

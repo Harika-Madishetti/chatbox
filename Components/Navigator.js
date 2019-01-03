@@ -13,7 +13,6 @@ const Navigator = createStackNavigator(
     },
     {
         initialRouteName: initialScreen,
-        headerMode: 'none'
     }
 );
 export default AppContainer = createAppContainer(Navigator);

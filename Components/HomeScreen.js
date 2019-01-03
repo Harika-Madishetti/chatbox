@@ -3,31 +3,24 @@ import {View,Text,FlatList,TouchableOpacity} from 'react-native';
 import styles from "../Stylesheet/styleSheet";
 import Contacts from 'react-native-contacts';
 import firebase from '../firebase/firebase';
-import Header from "./Header";
-
 
 export default class HomeScreen extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state ={
-            contacts:[]
-        };
-    }
+    state = {
+        contacts:[]
+    };
     componentDidMount() {
         let db = firebase.database();
-        let temContacts = [];
+        let localContacts = [];
         Contacts.getAll((err, contacts) => {
             if (err) throw err;
             else {
-                console.log(contacts);
                 db.ref("registeredUsers").once('value', (registeredUsers) =>  {
                     for(let i=0;i<contacts.length;i++) {
                         if(contacts[i].phoneNumbers.length!==0) {
-                            let number = contacts[i].phoneNumbers[0].number.replace(/\D/g,'');
-                            console.log(number);
+                            const number = contacts[i].phoneNumbers[0].number.replace(/\D/g,'');
                             if (number) {
-                                if (!(number.includes("*")) && registeredUsers.hasChild(number)) {
-                                    temContacts.push({
+                                if (number && registeredUsers.hasChild(number)) {
+                                    localContacts.push({
                                         key: number,
                                         name: contacts[i].givenName
                                     })
@@ -35,31 +28,38 @@ export default class HomeScreen extends React.Component {
                             }
                         }
                     }
-
                     this.setState({
-                        contacts:temContacts
+                        contacts:localContacts
                     })
                 });
-
             }
         })
     }
-    renderName(temp) {
-        console.log("inside render");
+    renderName(contact) {
         let info={
             sender:this.props.navigation.getParam("sender"),
-            receiver:temp
+            receiver:contact
         }
         return(
-            <TouchableOpacity onPress={()=>this.props.navigation.navigate('ChatScreen',{info:info, })} style={styles.separator}>
-                <Text style={styles.item}> {temp.item.name} </Text>
+            <TouchableOpacity onPress={()=>this.props.navigation.navigate('ChatScreen',{info:info,contactName:contact.item.name})} style={styles.separator}>
+                <Text style={styles.item}> {contact.item.name} </Text>
             </TouchableOpacity>
         );
     }
+    static navigationOptions = ({ navigation }) => {
+        return(
+            {
+                headerTitle: 'SolluApp',
+                // headerBackTitle: "Back",
+                headerTintColor: "white",
+                headerStyle: {
+                    backgroundColor: '#cc504e'
+                },
+            }
+        );
+    };
     render() {
         return (
-            <View style={styles.mainContainer}>
-                <Header title={'Sollu'}/>
             <View>
                 <FlatList
                     data={this.state.contacts}
@@ -69,7 +69,6 @@ export default class HomeScreen extends React.Component {
                     onContentSizeChange={() => this.flatList.scrollToEnd({animated: true})}
                     onLayout={() => this.flatList.scrollToEnd({animated: true})}
                 />
-            </View>
             </View>
         );
     }

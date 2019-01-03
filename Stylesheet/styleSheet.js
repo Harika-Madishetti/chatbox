@@ -110,14 +110,14 @@ export default StyleSheet.create({
         borderBottomColor: "rgba(92,94,94,0.5)",
         borderBottomWidth: 0.5,
         marginRight: 60,
-        padding:10,
+        padding:5,
         textAlign: "justify",
         alignItems: "flex-end",
     },
     iconContainer : {
-        borderRadius: 30,
-        width: 30,
-        height: 30
+        borderRadius: 20,
+        width: 40,
+        height: 40
     },
     senderMessage:{
         paddingRight:10,
