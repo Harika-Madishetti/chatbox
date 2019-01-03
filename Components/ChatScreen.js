@@ -47,19 +47,19 @@ export default class ChatScreen extends React.Component {
         );
     };
     renderItem({item}){
-        let msgstyle;
-        let msgtextstyle;
+        let messageboxstyle;
+        let messagetextstyle;
         if(item._id === 1) {
-            msgstyle = styles.senderCallerDetailsContainerWrap;
-            msgtextstyle = styles.senderTextStyle;
+            messageboxstyle = styles.senderMessageContainer;
+            messagetextstyle = styles.senderMessage;
         }else {
-            msgstyle =styles.receiverCallerDetailsContainerWrap;
-            msgtextstyle = styles.receiverTextStyle;
+            messageboxstyle =styles.receiverMessageContainer;
+            messagetextstyle = styles.receiverMessage;
         }
         return (
-                <View style={[msgstyle,styles.row]}>
+                <View style={[messageboxstyle,styles.chatBox]}>
                     <Image style={styles.iconContainer} source={require('../Icon/userIcon.png')} />
-                    <Text style={[msgtextstyle,styles.contactContainer]}>{item.text}</Text>
+                    <Text style={messagetextstyle}>{item.text}</Text>
                     </View>
         );
     };

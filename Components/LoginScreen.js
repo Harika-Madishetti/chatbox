@@ -15,7 +15,7 @@ class LoginScreen extends React.Component{
     handlePress = () => {
       let db = firebase.database();
       let taskRef = db.ref('registeredUsers');
-      this.props.navigation.navigate("Home",{sender:this.state.number});
+      this.props.navigation.navigate("HomeScreen",{sender:this.state.number});
       taskRef.once('value',(registeredUsers) => {
           if(!registeredUsers.hasChild(this.state.number)){
               taskRef.child(this.state.number).set('done');
@@ -25,7 +25,7 @@ class LoginScreen extends React.Component{
     static navigationOptions = ({ navigation }) => {
         return(
             {
-                headerTitle: "P2PApp",
+                headerTitle: "SolluApp",
                 headerBackTitle: "Back",
                 headerTintColor: "white",
                 headerStyle: {

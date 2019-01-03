@@ -18,10 +18,6 @@ export default StyleSheet.create({
         alignItems: "flex-start",
         flexDirection: "row"
     },
-    // contentContainer: {
-    //     flex: 1,
-    //     flexDirection: "row",
-    // },
     logoText: {
         color: "white",
         fontWeight: "bold",
@@ -30,18 +26,9 @@ export default StyleSheet.create({
         marginLeft: 20,
         marginTop:30
     },
-
     container: {
         flex: 1,
         backgroundColor: '#fff',
-    },
-    row: {
-        padding: 20,
-        // alignItems: "flex-start",
-        // borderBottomColor: "rgba(92,94,94,0.5)",
-        // borderBottomWidth: 0.25,
-        marginRight: 60,
-        justifyContent:'space-between'
     },
     message: {
         fontSize: 18,
@@ -104,43 +91,40 @@ export default StyleSheet.create({
         paddingHorizontal: 20,
         paddingVertical: 10,
         fontSize: 18,
-
     },
     button:{
         backgroundColor:"red"
     },
-
-
-    senderCallerDetailsContainerWrap: {
+    senderMessageContainer: {
         flex: 1,
-        // alignItems: "center",
+        alignItems: "center",
         flexDirection: "row-reverse",
-        // justifyContent : "space-between"
     },
-    senderTextStyle:{
-        marginLeft: 60,
-        justifyContent : "space-between"
-
-    },
-    receiverCallerDetailsContainerWrap: {
+    receiverMessageContainer: {
         flex: 1,
-        // alignItems: "center",
+        alignItems: "center",
         flexDirection: "row",
+    },
+    chatBox:{
+        flex: 1,
+        borderBottomColor: "rgba(92,94,94,0.5)",
+        borderBottomWidth: 0.5,
+        marginRight: 60,
+        padding:10,
+        textAlign: "justify",
+        alignItems: "flex-end",
     },
     iconContainer : {
         borderRadius: 30,
-        width: 40,
-        height: 40
+        width: 30,
+        height: 30
     },
-
-    receiverTextStyle:{
-        marginRight: 100
+    senderMessage:{
+        paddingRight:10,
+        marginLeft: 60
     },
-    contactSeparator: {
-        flex: 1,
-        alignItems: "flex-start",
-        borderBottomColor: "rgba(92,94,94,0.5)",
-        borderBottomWidth: 0.5,
+    receiverMessage:{
+        paddingLeft:10,
         marginRight: 60
-    },
+    }
 });

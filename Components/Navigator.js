@@ -4,11 +4,11 @@ import ChatScreen from "./ChatScreen";
 import LoginScreen from './LoginScreen';
 
 const isRegistered = false;
-const initialScreen = isRegistered ? "Home" : "LoginScreen";
+const initialScreen = isRegistered ? "HomeScreen" : "LoginScreen";
 const Navigator = createStackNavigator(
     {
         LoginScreen:LoginScreen,
-        Home: HomeScreen,
+        HomeScreen: HomeScreen,
         ChatScreen: ChatScreen
     },
     {

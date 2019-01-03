@@ -50,7 +50,6 @@ export default class HomeScreen extends React.Component {
             sender:this.props.navigation.getParam("sender"),
             receiver:temp
         }
-            // console.log("contactname : " +item.name);
         return(
             <TouchableOpacity onPress={()=>this.props.navigation.navigate('ChatScreen',{info:info, })} style={styles.separator}>
                 <Text style={styles.item}> {temp.item.name} </Text>
