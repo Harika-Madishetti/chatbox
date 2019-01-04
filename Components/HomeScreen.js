@@ -1,5 +1,5 @@
 import React from "react";
-import {View,Text,FlatList,TouchableOpacity} from 'react-native';
+import {View,Text,FlatList,TouchableOpacity,Platform,PermissionsAndroid} from 'react-native';
 import styles from "../Stylesheet/styleSheet";
 import Contacts from 'react-native-contacts';
 import firebase from '../firebase/firebase';
@@ -8,7 +8,22 @@ export default class HomeScreen extends React.Component {
     state = {
         contacts:[]
     };
-    componentDidMount() {
+    async requestContactsPermission() {
+        try {
+            const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.READ_CONTACTS
+            );
+            return granted === PermissionsAndroid.RESULTS.GRANTED;
+        } catch (error) {
+            return Platform.OS === "ios" ? true : false;
+        }
+    }
+    async componentDidMount() {
+        const permission = await this.requestContactsPermission();
+        if (!permission) {
+            alert(permission);
+            return;
+        }
         let db = firebase.database();
         let localContacts = [];
         Contacts.getAll((err, contacts) => {

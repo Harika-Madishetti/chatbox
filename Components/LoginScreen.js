@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
-import {View,TextInput,TouchableOpacity,Text,Image} from 'react-native';
+import {View,TextInput,TouchableOpacity,Text,Image,AsyncStorage,StatusBar} from 'react-native';
 import styles from "../Stylesheet/styleSheet";
 import firebase from '../firebase/firebase';
+import { NavigationActions, StackActions } from 'react-navigation';
 
 class LoginScreen extends Component{
     constructor(props) {
@@ -10,6 +11,12 @@ class LoginScreen extends Component{
    state = {
        phoneNumber :"",
    }
+    componentDidMount(){
+        AsyncStorage.getItem('userId').then((value) => {
+            this.setState({userId:value,is_fetching_done:true});
+        });
+    }
+
     validNumber = (number) => {
        this.setState({
            phoneNumber:number
@@ -23,7 +30,15 @@ class LoginScreen extends Component{
           if(!registeredUsers.hasChild(this.state.phoneNumber)){
               taskRef.child(this.state.phoneNumber).set('done');
           }
-      })
+      });
+        AsyncStorage.setItem('userId', this.state.phoneNumber).then(
+            this.props.navigation.dispatch(
+                StackActions.reset({
+                    index: 0,
+                    actions: [NavigationActions.navigate({ routeName: "HomeScreen", params: { sender: this.state.phoneNumber } })]
+                })
+            )
+        );
     }
     static navigationOptions = ({ navigation }) => {
         return(
@@ -40,8 +55,24 @@ class LoginScreen extends Component{
                 }
             }
         );
-    };
+    }
     render(){
+        if(this.state.userId){
+            this.props.navigation.dispatch(
+                StackActions.reset({
+                    index: 0,
+                    actions: [NavigationActions.navigate({ routeName: "HomeScreen" ,params:{sender:this.state.userId}})]
+                })
+            );
+        }
+        if(!this.state.is_fetching_done){
+            return(
+                <StatusBar
+                    backgroundColor="blue"
+                    barStyle="light-content"
+                />
+            );
+        }
         return(
                 <View style={styles.mainBox}>
                     <View style={styles.SectionStyle}>
