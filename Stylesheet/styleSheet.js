@@ -82,18 +82,19 @@ export default StyleSheet.create({
         borderBottomColor: "rgba(92,94,94,0.5)",
         borderBottomWidth: 0.25
     },
-    Box:{
-        flex:1,
-        justifyContent: 'center',
-        alignItems: 'center',
+    button: {
+        paddingTop: 10,
+        paddingBottom: 10,
+        borderRadius: 5,
+        marginBottom: 20,
+        width: 125,
+        height: 45
     },
-    inputBox: {
-        paddingHorizontal: 20,
-        paddingVertical: 10,
-        fontSize: 18,
-    },
-    button:{
-        backgroundColor:"red"
+    text: {
+        color: '#fff',
+        textAlign: 'center',
+        fontSize: 20,
+
     },
     senderMessageContainer: {
         flex: 1,
@@ -126,5 +127,35 @@ export default StyleSheet.create({
     receiverMessage:{
         paddingLeft:10,
         marginRight: 60
-    }
+    },
+
+    mainBox: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    SectionStyle: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: '#fff',
+        borderWidth: 0.5,
+        borderColor: '#000',
+        height: 50,
+        width: 300,
+        borderRadius: 5,
+        margin: 10,
+    },
+    imageStyle: {
+        padding: 1,
+        margin: 5,
+        height: 35,
+        width: 35,
+        resizeMode: 'stretch',
+        alignItems: 'center',
+    },
+    TextContainer: {
+        flex:1,
+        fontSize: 20,
+    },
 });

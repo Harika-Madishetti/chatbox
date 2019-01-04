@@ -50,7 +50,7 @@ export default class HomeScreen extends React.Component {
         return(
             {
                 headerTitle: 'SolluApp',
-                // headerBackTitle: "Back",
+                headerBackTitle: "Back",
                 headerTintColor: "white",
                 headerStyle: {
                     backgroundColor: '#cc504e'

@@ -39,7 +39,7 @@ export default class ChatScreen extends React.Component {
         return(
             {
                 headerTitle: navigation.getParam("contactName"),
-                // headerBackTitle: "Back",
+                headerBackTitle: "Back",
                 headerTintColor: "white",
                 headerStyle: {
                     backgroundColor: '#cc504e'
@@ -57,10 +57,11 @@ export default class ChatScreen extends React.Component {
             messageboxstyle =styles.receiverMessageContainer;
             messagetextstyle = styles.receiverMessage;
         }
+        const time = item.createdAt.getHours()+":"+item.createdAt.getMinutes();
         return (
                 <View style={[messageboxstyle,styles.chatBox]}>
                     <Image style={styles.iconContainer} source={require('../Icon/userIcon.png')} />
-                    <Text style={messagetextstyle}>{item.text}</Text>
+                    <Text style={messagetextstyle}>{item.text+"\n"+time}</Text>
                     </View>
         );
     };
@@ -82,8 +83,8 @@ export default class ChatScreen extends React.Component {
         this.setState({typing:''});
     }
     render() {
-        // const keyboardVerticalOffset = Platform.OS === 'ios' ? Header.HEIGHT + 20 : 0;
-        // const padding = Platform.OS === 'ios' ? "padding" : '';
+        const keyboardVerticalOffset = Platform.OS === 'ios' ? Header.HEIGHT + 20 : 0;
+        const padding = Platform.OS === 'ios' ? "padding" : '';
         return(
             <View style={styles.container}>
                 <FlatList
@@ -95,11 +96,11 @@ export default class ChatScreen extends React.Component {
                     onContentSizeChange={() =>  this.flatList.scrollToEnd({animated: false})}
                     onLayout={() => this.flatList.scrollToEnd({animated: true})}
                 />
-                {/*<KeyboardAvoidingView*/}
-                    {/*keyboardVerticalOffset = {keyboardVerticalOffset}*/}
-                    {/*behavior= {padding}*/}
-                {/*>*/}
-                    {/*<SafeAreaView forceInset={{ bottom: 'never' }}>*/}
+                <KeyboardAvoidingView
+                    keyboardVerticalOffset = {keyboardVerticalOffset}
+                    behavior= {padding}
+                >
+                    <SafeAreaView forceInset={{ bottom: 'never' }}>
                         <View style={styles.footer}>
                             <TextInput
                                 value={this.state.typing}
@@ -112,8 +113,8 @@ export default class ChatScreen extends React.Component {
                                 <Text style={styles.send}>Send</Text>
                             </TouchableOpacity>
                         </View>
-                    {/*</SafeAreaView>*/}
-                {/*</KeyboardAvoidingView>*/}
+                    </SafeAreaView>
+                </KeyboardAvoidingView>
             </View>
         );
     }

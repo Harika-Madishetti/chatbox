@@ -1,15 +1,19 @@
 import React, {Component} from 'react';
-import {View,TextInput,Button} from 'react-native';
+import {View,TextInput,TouchableOpacity,Text,Image} from 'react-native';
 import styles from "../Stylesheet/styleSheet";
 import firebase from '../firebase/firebase';
 
-class LoginScreen extends React.Component{
-   state = { phoneNumber : '',}
-
+class LoginScreen extends Component{
+    constructor(props) {
+        super(props)
+    }
+   state = {
+       phoneNumber :"",
+   }
     validNumber = (number) => {
        this.setState({
            phoneNumber:number
-       })
+       });
     }
     handlePress = () => {
       let db = firebase.database();
@@ -25,7 +29,7 @@ class LoginScreen extends React.Component{
         return(
             {
                 headerTitle: "SolluApp",
-                // headerBackTitle: "Back",
+                headerBackTitle: "Back",
                 headerTintColor: "white",
                 headerStyle: {
                     backgroundColor: '#cc504e',
@@ -39,19 +43,26 @@ class LoginScreen extends React.Component{
     };
     render(){
         return(
-            <View style={styles.Box}>
-                <TextInput
-                    style={styles.inputBox}
-                    placeholder="Enter your number"
-                    keyboardType='numeric'
-                    maxLength={10}
-                    onChangeText = {this.validNumber}>
-                </TextInput>
+                <View style={styles.mainBox}>
+                    <View style={styles.SectionStyle}>
+                        <Image source={require('../Icon/callerIcon3.png')}
+                               style={[styles.imageStyle]}/>
+                        <TextInput
+                            style={styles.TextContainer}
+                            placeholder="Enter phone number"
+                            maxLength={10}
+                            keyboardType='numeric'
+                            value={this.state.phoneNumber}
+                            onChangeText={this.validNumber}
+                        />
+                    </View>
                 <View>
-                <Button  style={styles.button}
-                         title="Next"
-                         onPress={this.handlePress}>
-                </Button>
+                        <TouchableOpacity style={[styles.button, { backgroundColor: this.state.phoneNumber ? '#cc504e' : '#f49f8e' }]}
+                                      activeOpacity = { .5 }
+                                      disabled={!this.state.phoneNumber}
+                                      onPress={this.handlePress}>
+                        <Text style={styles.text}>Login</Text>
+                    </TouchableOpacity>
                 </View>
             </View>
         );
