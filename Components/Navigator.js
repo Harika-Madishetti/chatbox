@@ -2,7 +2,6 @@ import { createStackNavigator, createAppContainer } from "react-navigation";
 import HomeScreen from "./HomeScreen";
 import ChatScreen from "./ChatScreen";
 import LoginScreen from './LoginScreen';
-import ProfileSettingsScreen from "./ProfileSettingsScreen";
 import ProfilePage from "./ProfilePage";
 
 const isRegistered = false;
@@ -13,7 +12,6 @@ const Navigator = createStackNavigator(
         HomeScreen: HomeScreen,
         ChatScreen: ChatScreen,
         ProfilePage : ProfilePage,
-        ProfileSettingsScreen : ProfileSettingsScreen
     },
     {
         initialRouteName: initialScreen,
