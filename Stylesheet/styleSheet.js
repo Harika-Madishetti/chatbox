@@ -113,12 +113,13 @@ export default StyleSheet.create({
         marginRight: 60,
         padding:5,
         textAlign: "justify",
-        alignItems: "flex-end",
+        alignItems: "center",
     },
     iconContainer : {
-        borderRadius: 20,
-        width: 40,
-        height: 40
+        borderRadius: 40,
+        width: 60,
+        height: 60,
+
     },
     senderMessage:{
         paddingRight:10,

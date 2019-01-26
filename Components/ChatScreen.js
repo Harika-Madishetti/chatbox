@@ -1,8 +1,9 @@
 import React from "react";
 import {Platform,View,Text,TextInput,KeyboardAvoidingView,FlatList,TouchableOpacity,Image} from 'react-native';
-import {SafeAreaView,Header} from 'react-navigation';
+import {SafeAreaView} from 'react-navigation';
 import styles from "../Stylesheet/styleSheet";
 import firebase from "../firebase/firebase";
+import Header from "./Header"
 
 
 export default class ChatScreen extends React.Component {
@@ -35,22 +36,10 @@ export default class ChatScreen extends React.Component {
             });
         });
     }
-    static navigationOptions = ({ navigation }) => {
-        return(
-            {
-                headerTitle: navigation.getParam("contactName"),
-                headerBackTitle: "Back",
-                headerTintColor: "white",
-                headerStyle: {
-                    backgroundColor: '#cc504e'
-                },
-            }
-        );
-    };
     renderItem({item}){
         let messageboxstyle;
         let messagetextstyle;
-        if(item._id === 1) {
+        if(item._id === 2) {
             messageboxstyle = styles.senderMessageContainer;
             messagetextstyle = styles.senderMessage;
         }else {
@@ -60,8 +49,8 @@ export default class ChatScreen extends React.Component {
         const time = item.createdAt.getHours()+":"+item.createdAt.getMinutes();
         return (
                 <View style={[messageboxstyle,styles.chatBox]}>
-                    <Image style={styles.iconContainer} source={require('../Icon/userIcon.png')} />
-                    <Text style={messagetextstyle}>{item.text+"\n"+time}</Text>
+                    <Image style={styles.iconContainer} source={require('../Icon/userIcon1.png')} />
+                    <Text style={messagetextstyle}>{item.text+'  '+time}</Text>
                     </View>
         );
     };
@@ -87,6 +76,11 @@ export default class ChatScreen extends React.Component {
         const padding = Platform.OS === 'ios' ? "padding" : '';
         return(
             <View style={styles.container}>
+                <View style={styles.headerContainer}>
+                    <View style={styles.leftHeaderContainer}>
+                        <Text style={styles.logoText}>Sollu</Text>
+                    </View>
+                </View>
                 <FlatList
                     data={this.state.messages}
                     renderItem={this.renderItem.bind(this)}
@@ -94,12 +88,10 @@ export default class ChatScreen extends React.Component {
                     keyExtractor={(item, index) => index.toString()}
                     ref={ref => this.flatList = ref}
                     onContentSizeChange={() =>  this.flatList.scrollToEnd({animated: false})}
-                    onLayout={() => this.flatList.scrollToEnd({animated: true})}
-                />
+                    onLayout={() => this.flatList.scrollToEnd({animated: true})}/>
                 <KeyboardAvoidingView
                     keyboardVerticalOffset = {keyboardVerticalOffset}
-                    behavior= {padding}
-                >
+                    behavior= {padding}>
                     <SafeAreaView forceInset={{ bottom: 'never' }}>
                         <View style={styles.footer}>
                             <TextInput
@@ -107,8 +99,7 @@ export default class ChatScreen extends React.Component {
                                 onChangeText={text => this.setState({typing: text})}
                                 style={styles.input}
                                 underlineColorAndroid="transparent"
-                                placeholder="Type something nice"
-                            />
+                                placeholder="Type something nice"/>
                             <TouchableOpacity onPress={this.sendMessage}>
                                 <Text style={styles.send}>Send</Text>
                             </TouchableOpacity>

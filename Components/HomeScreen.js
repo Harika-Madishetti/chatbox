@@ -1,5 +1,5 @@
 import React from "react";
-import {View,Text,FlatList,TouchableOpacity,Platform,PermissionsAndroid} from 'react-native';
+import {View,Text,FlatList,TouchableOpacity,Platform,PermissionsAndroid,Image,Button} from 'react-native';
 import styles from "../Stylesheet/styleSheet";
 import Contacts from 'react-native-contacts';
 import firebase from '../firebase/firebase';
@@ -61,21 +61,19 @@ export default class HomeScreen extends React.Component {
             </TouchableOpacity>
         );
     }
-    static navigationOptions = ({ navigation }) => {
-        return(
-            {
-                headerTitle: 'SolluApp',
-                headerBackTitle: "Back",
-                headerTintColor: "white",
-                headerStyle: {
-                    backgroundColor: '#cc504e'
-                },
-            }
-        );
-    };
     render() {
         return (
             <View>
+                <View style={styles.headerContainer}>
+                    <View style={styles.leftHeaderContainer}>
+                        <Text style={styles.logoText}>Sollu</Text>
+                    </View>
+                    <View>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfilePage')}>
+                            <Image style={styles.iconContainer} source={require('../Icon/userIcon1.png')}/>
+                        </TouchableOpacity>
+                    </View>
+                </View>
                 <FlatList
                     data={this.state.contacts}
                     renderItem={this.renderName.bind(this)}
