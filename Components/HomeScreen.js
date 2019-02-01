@@ -6,7 +6,9 @@ import firebase from '../firebase/firebase';
 
 export default class HomeScreen extends React.Component {
     state = {
-        contacts:[]
+        contacts:[],
+        is_ProfilePicSet:false,
+        profilePic:null
     };
     async requestContactsPermission() {
         try {
@@ -37,7 +39,7 @@ export default class HomeScreen extends React.Component {
                                 if (number && registeredUsers.hasChild(number)) {
                                     localContacts.push({
                                         key: number,
-                                        name: contacts[i].givenName
+                                        name: contacts[i].givenName,
                                     })
                                 }
                             }
@@ -47,9 +49,24 @@ export default class HomeScreen extends React.Component {
                         contacts:localContacts
                     })
                 });
+                let imageRef = db.ref('registeredUserProfileInfo')
+                let phoneNo = this.props.navigation.getParam("sender")
+                let user;
+                let user_pic = null;
+                imageRef.child(phoneNo).on('value', (snapshot)=> {
+                    user = snapshot.val();
+                    if(user.imageURL){
+                        user_pic = user.imageURL
+                    }
+                    this.setState({
+                        is_ProfilePicSet:true,
+                        profilePic:user_pic
+                    })
+                })
             }
         })
     }
+
     renderName(contact) {
         let info={
             sender:this.props.navigation.getParam("sender"),
@@ -62,6 +79,9 @@ export default class HomeScreen extends React.Component {
         );
     }
     render() {
+        let info={
+            sender:this.props.navigation.getParam("sender"),
+        }
         return (
             <View>
                 <View style={styles.headerContainer}>
@@ -69,8 +89,12 @@ export default class HomeScreen extends React.Component {
                         <Text style={styles.logoText}>Sollu</Text>
                     </View>
                     <View>
-                        <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfilePage')}>
-                            <Image style={styles.iconContainer} source={require('../Icon/userIcon1.png')}/>
+                        <TouchableOpacity onPress={() => this.props.navigation.navigate('ProfilePage',{phoneNo: this.props.navigation.getParam("sender")})}>
+                            {   this.state.profilePic === null ?
+                                <Image style={styles.iconContainer} source={require('../Icon/userIcon1.png')}/>:
+                                <Image style={styles.iconContainer} source={{uri:this.state.profilePic}}/>
+                            }
+
                         </TouchableOpacity>
                     </View>
                 </View>
@@ -79,8 +103,6 @@ export default class HomeScreen extends React.Component {
                     renderItem={this.renderName.bind(this)}
                     extradata={this.state.contacts}
                     ref={ref => this.flatList = ref}
-                    onContentSizeChange={() => this.flatList.scrollToEnd({animated: true})}
-                    onLayout={() => this.flatList.scrollToEnd({animated: true})}
                 />
             </View>
         );

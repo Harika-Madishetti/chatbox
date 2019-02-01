@@ -10,6 +10,7 @@ class LoginScreen extends Component{
     }
    state = {
        phoneNumber :"",
+       Gender:''
    }
     componentDidMount(){
         AsyncStorage.getItem('userId').then((value) => {
@@ -38,22 +39,6 @@ class LoginScreen extends Component{
                     actions: [NavigationActions.navigate({ routeName: "HomeScreen", params: { sender: this.state.phoneNumber } })]
                 })
             )
-        );
-    }
-    static navigationOptions = ({ navigation }) => {
-        return(
-            {
-                headerTitle: "SolluApp",
-                headerBackTitle: "Back",
-                headerTintColor: "white",
-                headerStyle: {
-                    backgroundColor: '#cc504e',
-                },
-                headerTitleStyle: {
-                    textAlign:"left",
-                    flex:1
-                }
-            }
         );
     }
     render(){
