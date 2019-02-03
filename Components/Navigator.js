@@ -14,7 +14,7 @@ const Navigator = createStackNavigator(
         ProfilePage : ProfilePage,
     },
     {
-        initialRouteName: initialScreen,
+        initialRouteName : initialScreen,
         headerMode : 'none'
     }
 );

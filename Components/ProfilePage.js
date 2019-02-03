@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import {StyleSheet, Text, View, Image, TouchableOpacity,Platform} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity,Platform,Button} from 'react-native';
 import ImagePicker from "react-native-image-picker";
 import firebase from "../firebase/firebase";
 import RNFetchBlob from 'react-native-fetch-blob';
 import { Picker } from 'react-native-picker-dropdown'
+import styles from "../Stylesheet/profilePageStyle";
 
-let user_pic=null;
 const Blob = RNFetchBlob.polyfill.Blob
 const fs = RNFetchBlob.fs
 window.XMLHttpRequest = RNFetchBlob.polyfill.XMLHttpRequest
@@ -19,47 +19,56 @@ var options = {
     },
 };
 export default class Profile extends Component {
-    constructor(props){
-        super();
-        this.state = {
-            image_uri: null,
-            is_image : 'false',
-            gender : 'select gender'
-        }
-        this.onValueChange = this.onValueChange.bind(this)
+    state = {
+        image_uri: null,
+        gender : '',
+        isProfileSet : false
     };
     componentDidMount() {
+        let user_pic = '';
         let db = firebase.database();
-        let profileimageRef = db.ref('registeredUserProfileInfo')
         let phoneNo = this.props.navigation.getParam("phoneNo")
-        let user;
-        profileimageRef.child(phoneNo).on('value', (snapshot) => {
-            user = snapshot.val();
-            if(user.imageURL) {
-                user_pic=user.imageURL
+        console.log(phoneNo)
+        let profileimageRef = db.ref('registeredUserProfileInfo').child(phoneNo)
+        profileimageRef.on('value', (snapshot) => {
+            let user = snapshot.val();
+            let newGender = '';
+            console.log(user.imageURL);
+            if(user){
+                if((typeof user.imageURL==='undefined' && typeof user.Gender === 'undefined')){
+                    user_pic = "https://firebasestorage.googleapis.com/v0/b/chatbox-992a8.appspot.com/o/images%2FgeneralUserIcon.png?alt=media&token=5aca0ddf-29f1-48f8-aa7d-78996b5a81a3"
+                }else if(user.imageURL){
+                    user_pic = user.imageURL
+                    console.log("else")
+                    console.log(user.imageURL)
+                }else if(user.Gender){
+                    if(user.Gender === "Male") {
+                        console.log("male inside else if");
+                        user_pic= "https://firebasestorage.googleapis.com/v0/b/chatbox-992a8.appspot.com/o/images%2FMale_User_Icon.png?alt=media&token=19a99982-2a29-4065-806c-98545201f92e";
+                    }
+                    else if( user.Gender === "Female"){
+                        user_pic = "https://firebasestorage.googleapis.com/v0/b/chatbox-992a8.appspot.com/o/images%2Ffemale_user_icon.jpeg?alt=media&token=1ac3889b-c899-494b-8d4e-8bbc9d283e12";
+                    }
+                    else if(user.Gender === "Select Gender"){
+                        user_pic = "https://firebasestorage.googleapis.com/v0/b/chatbox-992a8.appspot.com/o/images%2FgeneralUserIcon.png?alt=media&token=5aca0ddf-29f1-48f8-aa7d-78996b5a81a3"
+                    }
+                }
             }
-            console.log(user_pic);
             this.setState({
-                is_image : true,
-                image_uri: user_pic});
-        })
+                gender: user.Gender,
+                image_uri: user_pic,
+                isProfileSet : true
+            });
+            }
+        )
     }
-        uploadImage(uri, mime = 'image/jpeg')
+        uploadImage(uri, fileName,mime = 'image/jpeg')
         {
             return new Promise((resolve, reject) => {
                 let imageURI = uri;
                 let uploadBlob = null;
                 const uploadUri = Platform.OS === 'ios' ? imageURI.replace('file://', '') : imageURI
-                const imageRef = firebase.storage().ref('images').child('image__005');
-                imageRef.getDownloadURL().then((url) => {
-                    let db = firebase.database();
-                    let profileimageRef = db.ref('registeredUserProfileInfo')
-                    let phoneNo = this.props.navigation.getParam("phoneNo")
-                    let profile = {
-                        'imageURL': url,
-                    }
-                    profileimageRef.child(phoneNo).set(profile);
-                });
+                const imageRef = firebase.storage().ref('images').child(fileName);
                 fs.readFile(uploadUri, 'base64')
                     .then((data) => {
                         return Blob.build(data, {type: `${mime};BASE64`})
@@ -69,14 +78,14 @@ export default class Profile extends Component {
                         return imageRef.put(blob, {contentType: mime})
                     })
                     .then(() => {
-                        uploadBlob.close()
-                        return imageRef.getDownloadURL()
-                    })
-                    .then((url) => {
-                        resolve(url)
-                    })
-                    .then((url) => {
-                        resolve(url)
+                        uploadBlob.close();
+                        imageRef.getDownloadURL().then((url) => {
+                            let db = firebase.database();
+                            let profileimageRef = db.ref('registeredUserProfileInfo')
+                            let phoneNo = this.props.navigation.getParam("phoneNo")
+                            profileimageRef.child(phoneNo).child('imageURL').set(url);
+                            console.log("sd : " +url)
+                        });
                     })
                     .catch((error) => {
                         reject(error)
@@ -84,16 +93,14 @@ export default class Profile extends Component {
                     })
 
         }
-
         pickImageHandler(){
             ImagePicker.showImagePicker(options, (responce) => {
-                console.log('Response = ', +responce);
                 if (responce.didCancel) {
                     console.log("User cancelled!");
                 } else if (responce.error) {
                     console.log("Error", responce.error);
                 } else {
-                    this.uploadImage(responce.uri)
+                    this.uploadImage(responce.uri,responce.fileName)
                         .then(url => {
                             this.setState({
                                 image_uri: responce.uri
@@ -103,10 +110,11 @@ export default class Profile extends Component {
                 }
             });
         }
-    onValueChange(gender) {
-        this.setState({
-            gender
-        })
+    genderChange = (itemValue) => {
+        let phoneNo = this.props.navigation.getParam("phoneNo");
+        let db = firebase.database();
+        const  selectedImage = db.ref('registeredUserProfileInfo').child(phoneNo).child('Gender');
+        selectedImage.set(itemValue);
     }
     render() {
         return (
@@ -119,20 +127,16 @@ export default class Profile extends Component {
                 <View>
                     <View style={styles.imageContainer}>
                         <TouchableOpacity  onPress={this.pickImageHandler.bind(this)}>
-                            {   this.state.is_image === false ?
-                                <Image style={styles.placeholder} source={require('../Icon/userIcon1.png')}/>:
                                 <Image style={styles.placeholder} source={{uri : this.state.image_uri}}/>
-                            }
                         </TouchableOpacity>
                     </View>
                     <View style={styles.dropdowncontainer}>
                         <Picker
                             selectedValue={this.state.gender}
-                            onValueChange={this.onValueChange}
+                            onValueChange={this.genderChange}
                             style={styles.picker}
-                            textStyle={styles.pickerText}
-                            cancel>
-                            <Picker.Item label="Select Gender  " value="" />
+                            textStyle={styles.pickerText}>
+                            <Picker.Item label="Select Gender" value="Select Gender" />
                             <Picker.Item label="Male" value="Male" />
                             <Picker.Item label="Female" value="Female" />
                         </Picker>
@@ -142,90 +146,3 @@ export default class Profile extends Component {
         );
     }
 }
-const styles = StyleSheet.create({
-    header:{
-        backgroundColor: "#cc504e",
-        height:80,
-    },
-    avatar: {
-        borderRadius: 40,
-        width: 130,
-        height: 130,
-        alignSelf:'center'
-    },
-    name:{
-        fontSize:22,
-        color:"#FFFFFF",
-        fontWeight:'600',
-    },
-    body:{
-        marginTop:40,
-    },
-    bodyContent: {
-        flex: 1,
-        alignItems: 'center',
-        padding:30,
-    },
-    logoText: {
-        color: "white",
-        fontWeight: "bold",
-        fontSize: 20,
-        alignItems: "flex-start",
-        marginLeft: 20,
-        marginTop:30
-    },
-    leftHeaderContainer: {
-        alignItems: "flex-start",
-        flexDirection: "row"
-    },
-
-
-    imageContainer: {
-        alignItems:"center"
-    },
-    textStyle: {
-        fontWeight:"bold",
-        fontSize:30,
-        textAlign:"center",
-        color:"red",
-        marginTop:10
-    },
-    placeholder: {
-        alignSelf:'center',
-        borderColor: "black",
-        backgroundColor: "#eee",
-        borderRadius: 100,
-        width: 200,
-        height: 200,
-        marginTop:50,
-    },
-    button: {
-        width: "80%",
-        marginTop:20,
-        flexDirection:"row",
-        justifyContent: "space-around"
-    },
-    previewImage: {
-        alignSelf:'center',
-        borderColor: "black",
-        backgroundColor: "#eee",
-        borderRadius: 100,
-        width: 200,
-        height: 200,
-        marginTop:10,
-    },
-
-    dropdowncontainer: {
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    picker: {
-        alignSelf: 'stretch',
-        backgroundColor: "#cc504e",
-        margin: 20,
-        borderRadius: 10,
-    },
-    pickerText: {
-        color: 'white',
-    }
-});

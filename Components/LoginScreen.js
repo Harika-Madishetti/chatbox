@@ -14,7 +14,10 @@ class LoginScreen extends Component{
    }
     componentDidMount(){
         AsyncStorage.getItem('userId').then((value) => {
-            this.setState({userId:value,is_fetching_done:true});
+            this.setState({
+                userId:value,
+                is_fetching_done:true
+            });
         });
     }
 
@@ -32,6 +35,12 @@ class LoginScreen extends Component{
               taskRef.child(this.state.phoneNumber).set('done');
           }
       });
+      let userInfoRef=db.ref('registeredUserProfileInfo');
+      userInfoRef.once('value',(userInfo) => {
+            if(!userInfo.hasChild(this.state.phoneNumber)){
+                userInfoRef.child(this.state.phoneNumber).set('done');
+            }
+        });
         AsyncStorage.setItem('userId', this.state.phoneNumber).then(
             this.props.navigation.dispatch(
                 StackActions.reset({
