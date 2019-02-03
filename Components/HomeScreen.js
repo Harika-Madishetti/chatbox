@@ -3,12 +3,15 @@ import {View,Text,FlatList,TouchableOpacity,Platform,PermissionsAndroid,Image,Bu
 import styles from "../Stylesheet/styleSheet";
 import Contacts from 'react-native-contacts';
 import firebase from '../firebase/firebase';
+import { Avatar } from 'react-native-elements'
+import { ListItem } from 'react-native-elements'
 
 
 let user_pic = null;
 export default class HomeScreen extends React.Component {
     state = {
         contacts:[],
+        contactsProfilePics:[],
         is_ProfilePicSet:false,
         profilePic: null
     };
@@ -30,6 +33,7 @@ export default class HomeScreen extends React.Component {
         }
         let db = firebase.database();
         let localContacts = [];
+        let localContactsProfilePics=[];
         Contacts.getAll((err, contacts) => {
             if (err) throw err;
             else {
@@ -50,9 +54,10 @@ export default class HomeScreen extends React.Component {
                     this.setState({
                         contacts:localContacts
                     })
+
                 });
-                let imageRef = db.ref('registeredUserProfileInfo')
-                let phoneNo = this.props.navigation.getParam("sender")
+                let imageRef = db.ref('registeredUserProfileInfo');
+                let phoneNo = this.props.navigation.getParam("sender");
                 let user;
                 let imageURL ;
                 imageRef.child(phoneNo).on('value', (registeredUserProfileInfo)=> {
@@ -78,21 +83,48 @@ export default class HomeScreen extends React.Component {
                         is_ProfilePicSet : true,
                         profilePic : user_pic
                     })
+                })
+                db.ref('registeredUserProfileInfo').once('value',(registeredUserProfileInfo)=>{
+                    for(let i=0;i<localContacts.length;i++) {
+                        const number = localContacts[i].key;
+                        if (registeredUserProfileInfo.hasChild(number)) {
+                            if (number === registeredUserProfileInfo.child(number).key) {
+                                localContactsProfilePics.push({
+                                    key: number,
+                                    url: registeredUserProfileInfo.child(number).val().imageURL
+                                })
+                            }
+                        }
+                    }
                 }
-                )
+                );
+                this.setState({
+                    contactsProfilePics : localContactsProfilePics
+                })
+                console.log(this.state.contactsProfilePics)
             }
         })
     }
-
-    renderName(contact) {
-        let info={
-            sender:this.props.navigation.getParam("sender"),
-            receiver:contact
+    renderName = (contact) => {
+        let info = {
+            sender: this.props.navigation.getParam("sender"),
+            receiver: contact
         }
+        let contactImageUrl = '';
+        this.state.contactsProfilePics.forEach(number=>{
+            if (number.key === contact.item.key) {
+                contactImageUrl = number.url;
+            }
+        });
         return(
-            <TouchableOpacity onPress={()=>this.props.navigation.navigate('ChatScreen',{info:info,contactName:contact.item.name})} style={styles.separator}>
-                <Text style={styles.item}> {contact.item.name} </Text>
+            <View >
+                <TouchableOpacity onPress={()=>this.props.navigation.navigate('ChatScreen',{info:info,contactName:contact.item.name,profilePicUrl:contactImageUrl})} style={styles.contactStyle}>
+                    <ListItem
+                        roundAvatar={true}
+                        leftAvatar={ {source: { uri: contactImageUrl }}}/>
+                    <Text style={styles.homecontact}> {contact.item.name} </Text>
             </TouchableOpacity>
+            </View>
         );
     }
     render() {

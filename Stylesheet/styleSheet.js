@@ -121,7 +121,22 @@ export default StyleSheet.create({
         height: 60,
 
     },
+    contactIcon:{
+        borderRadius: 30,
+        width: 40,
+        height: 40,
+        flex:1,
+        flexDirection:'row'
+    },
+    contactStyle:{
+        flex:1,
+        flexDirection:'row'
+    },
     senderMessage:{
+        paddingRight:10,
+        marginLeft: 60
+    },
+    homecontact:{
         paddingRight:10,
         marginLeft: 60
     },
@@ -129,7 +144,6 @@ export default StyleSheet.create({
         paddingLeft:10,
         marginRight: 60
     },
-
     mainBox: {
         flex: 1,
         justifyContent: 'center',
