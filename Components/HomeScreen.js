@@ -119,9 +119,7 @@ export default class HomeScreen extends React.Component {
         return(
             <View >
                 <TouchableOpacity onPress={()=>this.props.navigation.navigate('ChatScreen',{info:info,contactName:contact.item.name,profilePicUrl:contactImageUrl})} style={styles.contactStyle}>
-                    <ListItem
-                        roundAvatar={true}
-                        leftAvatar={ {source: { uri: contactImageUrl }}}/>
+                    <ListItem style={styles.listview} roundAvatar={true} leftAvatar={ {source: { uri: contactImageUrl }}}/>
                     <Text style={styles.homecontact}> {contact.item.name} </Text>
             </TouchableOpacity>
             </View>

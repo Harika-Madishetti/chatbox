@@ -130,7 +130,11 @@ export default StyleSheet.create({
     },
     contactStyle:{
         flex:1,
-        flexDirection:'row'
+        marginLeft: 0,
+        flexDirection:'row',
+        alignItems: "center",
+        borderBottomColor: "rgba(92,94,94,0.5)",
+        borderBottomWidth: 0.30
     },
     senderMessage:{
         paddingRight:10,
@@ -138,7 +142,12 @@ export default StyleSheet.create({
     },
     homecontact:{
         paddingRight:10,
-        marginLeft: 60
+        fontSize: 20,
+        alignItems: "center",
+    },
+    listview : {
+        height:70,
+        width:70,
     },
     receiverMessage:{
         paddingLeft:10,
