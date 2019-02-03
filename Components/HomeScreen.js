@@ -62,15 +62,12 @@ export default class HomeScreen extends React.Component {
                              user_pic = "https://firebasestorage.googleapis.com/v0/b/chatbox-992a8.appspot.com/o/images%2FgeneralUserIcon.png?alt=media&token=5aca0ddf-29f1-48f8-aa7d-78996b5a81a3"
                          }else if(user.imageURL){
                              user_pic = user.imageURL
-                             console.log("else")
-                             console.log(user.imageURL)
                          }else if(user.Gender){
                                  if(user.Gender === "Male") {
-                                     console.log("male inside else if");
-                                     user_pic= "https://firebasestorage.googleapis.com/v0/b/chatbox-992a8.appspot.com/o/images%2FMale_User_Icon.png?alt=media&token=19a99982-2a29-4065-806c-98545201f92e";
+                                     user_pic= "https://firebasestorage.googleapis.com/v0/b/chatbox-992a8.appspot.com/o/images%2FMale-profile-icon-red.png?alt=media&token=3e48646e-25ae-43a4-8e2e-f7e2255e18cf";
                                  }
                                  else if( user.Gender === "Female"){
-                                     user_pic = "https://firebasestorage.googleapis.com/v0/b/chatbox-992a8.appspot.com/o/images%2Ffemale_user_icon.jpeg?alt=media&token=1ac3889b-c899-494b-8d4e-8bbc9d283e12";
+                                     user_pic = "https://firebasestorage.googleapis.com/v0/b/chatbox-992a8.appspot.com/o/images%2FFemale-profile-icon-.png?alt=media&token=c553bc7c-4bc7-48b9-9026-a50591356bfd";
                                  }
                                  else if(user.Gender === "Select Gender"){
                                      user_pic = "https://firebasestorage.googleapis.com/v0/b/chatbox-992a8.appspot.com/o/images%2FgeneralUserIcon.png?alt=media&token=5aca0ddf-29f1-48f8-aa7d-78996b5a81a3"
